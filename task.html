@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Rewards</title>
+</head>
+<body>
+    <h1>Welcome to Task Rewards</h1>
+
+    <h2>Complete Tasks to Earn Points</h2>
+    <div>
+        <button id="task1Button" onclick="completeTask('Task 1')">Complete Task 1</button>
+        <button id="task2Button" onclick="completeTask('Task 2')">Complete Task 2</button>
+    </div>
+
+    <h2>Your Info</h2>
+    <p id="walletAddress">Address: Not connected</p>
+    <p id="walletPoints">Points: 0</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script>
+        let web3;
+        let account;
+        let contract;
+
+        const contractAddress = "0xCaA50464ced36e53349E62fD735E8b9fA22e84fd"; // Replace with your contract address
+
+        const contractABI = [
+            {
+                "inputs": [],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function",
+                "constant": true
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "userPoints",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function",
+                "constant": true
+            },
+            {
+                "stateMutability": "payable",
+                "type": "receive",
+                "payable": true
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "completeTask",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address payable",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "sendEtherOnReward",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
+
+        const defaultAccount = "0x20995cDd39aEF4ce44C82A5fc22d83b8c092626d"; // Replace this with the address of the account you want to use
+        let points = 0; // Track points locally in the frontend
+
+        // Connect to MetaMask on page load
+        window.addEventListener("load", async () => {
+            if (typeof window.ethereum !== "undefined") {
+                web3 = new Web3(window.ethereum);
+
+                try {
+                    // Request account access
+                    await window.ethereum.request({ method: "eth_requestAccounts" });
+
+                    // Set account and contract
+                    account = (await web3.eth.getAccounts())[0];
+                    document.getElementById('walletAddress').innerText = "Address: " + account;
+
+                    contract = new web3.eth.Contract(contractABI, contractAddress);
+                } catch (error) {
+                    console.error("Error accessing account:", error);
+                }
+            } else {
+                alert("MetaMask not found. Please install MetaMask.");
+            }
+        });
+
+        // Function to simulate task completion and reward points
+        async function completeTask(taskName) {
+            points += 1; // Increment points locally
+            document.getElementById('walletPoints').innerText = "Points: " + points;
+
+            if (points >= 10) {
+                try {
+                    // Send 5 Ether from the default account to the user
+                    const amountInWei = web3.utils.toWei('5', 'ether'); // Convert 5 Ether to Wei
+
+                    await web3.eth.sendTransaction({
+                        from: defaultAccount,
+                        to: account,
+                        value: amountInWei,
+                        gas: 21000, // Standard gas for simple transfer
+                        gasPrice: web3.utils.toWei('20', 'gwei') // Adjust gas price if needed
+                    });
+
+                    // Show a message when Ether is transferred
+                    alert(`Congratulations! You've reached 10 points. 5 Ether has been credited to your account.`);
+                    points = 0; // Reset points after reward
+                    document.getElementById('walletPoints').innerText = "Points: " + points;
+                } catch (error) {
+                    console.error("Error sending Ether:", error);
+                    alert("Transaction failed. Please try again.");
+                }
+            } else {
+                alert(`${taskName} completed! Your current points: ${points}`);
+            }
+        }
+    </script>
+</body>
+</html>

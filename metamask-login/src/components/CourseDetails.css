@@ -1,0 +1,172 @@
+/* General Styles */
+.course-details-full {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #222;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: #f9f9f9;
+    overflow-x: scroll;
+    overflow-y: auto; /* Allows vertical scrolling */
+    height: 100vh; /* Limit to viewport height */
+  }
+  
+  /* Header Section */
+  .course-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .course-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #088178;
+  }
+  .course-tagline {
+    font-size: 18px;
+    color: #465b52;
+  }
+  
+  /* Video Section */
+  .course-video-section {
+    margin-bottom: 24px;
+  }
+  .video-container {
+    position: relative;
+    padding-top: 56.25%;
+    background-color: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  .youtube-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 12px;
+  }
+  
+  /* Overview Section */
+  .course-overview {
+    margin-bottom: 24px;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .course-overview ul {
+    list-style: none;
+    padding: 0;
+  }
+  .course-overview li {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  /* Instructor Section */
+  .instructor-section {
+    margin-bottom: 24px;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .instructor-details {
+    display: flex;
+    gap: 16px;
+  }
+  .instructor-photo {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+  
+  /* Curriculum Section */
+  .curriculum-section {
+    margin-bottom: 24px;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .curriculum-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  .curriculum-section li {
+    margin: 8px 0;
+  }
+  
+  /* Reviews Section */
+  .reviews-section {
+    margin-bottom: 24px;
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .review {
+    margin-bottom: 16px;
+  }
+  .review span {
+    display: block;
+    margin-top: 8px;
+    font-size: 16px;
+    color: #fddde4;
+  }
+  
+  /* Related Courses Section */
+  .related-courses-section {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .related-courses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+  }
+  .course-card {
+    padding: 16px;
+    background-color: #e8f6ea;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  .course-card:hover {
+    transform: translateY(-4px);
+  }
+  .course-card h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #088178;
+  }
+  .course-card p {
+    font-size: 14px;
+    color: #465b52;
+  }
+  /* Styling for the buttons */
+button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #45a049; /* Darker green */
+    transform: scale(1.05);
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Shop</title>
+</head>
+<body>
+    <h1>Welcome to the Blockchain Shop</h1>
+
+    <h2>Select an item to buy:</h2>
+    <div>
+        <button id="coffeeButton" onclick="buyItem('coffee', 1)">Coffee (1 Ether)</button>
+        <button id="tshirtButton" onclick="buyItem('t-shirt', 2)">T-Shirt (2 Ether)</button>
+    </div>
+
+    <h2>Your Wallet Info</h2>
+    <p id="walletAddress">Address: Not connected</p>
+    <p id="walletBalance">Balance: Not connected</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script>
+        let web3;
+        let account;
+
+        // Default recipient account address (where Ether is sent when purchasing items)
+        const recipientAddress = "0x20995cDd39aEF4ce44C82A5fc22d83b8c092626d"; // Replace with the actual recipient address
+
+        window.addEventListener("load", async () => {
+            if (typeof window.ethereum !== "undefined") {
+                // Set up Web3
+                web3 = new Web3(window.ethereum);
+                try {
+                    // Request account access if needed
+                    await window.ethereum.request({ method: "eth_requestAccounts" });
+
+                    // Set the account
+                    account = (await web3.eth.getAccounts())[0];
+                    document.getElementById('walletAddress').innerText = "Address: " + account;
+
+                    // Get the balance of the account
+                    const balance = await web3.eth.getBalance(account);
+                    document.getElementById('walletBalance').innerText = "Balance: " + web3.utils.fromWei(balance, "ether") + " ETH";
+                } catch (error) {
+                    console.error("User denied account access or an error occurred.", error);
+                }
+            } else {
+                alert("MetaMask not found. Please install MetaMask.");
+            }
+        });
+
+        // Function to handle item purchase (transfer Ether)
+        async function buyItem(item, priceInEther) {
+            const priceInWei = web3.utils.toWei(priceInEther.toString(), "ether");
+
+            try {
+                // MetaMask transaction (just like when you send ETH manually)
+                await web3.eth.sendTransaction({
+                    from: account,
+                    to: recipientAddress,
+                    value: priceInWei,
+                    gas: 21000, // Standard gas limit for simple transfers
+                    gasPrice: web3.utils.toWei('20', 'gwei') // You can adjust the gas price
+                });
+
+                alert(`Successfully transferred ${priceInEther} Ether for ${item}.`);
+            } catch (error) {
+                console.error("Transaction failed:", error);
+                alert("Transaction failed. Please check MetaMask.");
+            }
+        }
+    </script>
+</body>
+</html>
