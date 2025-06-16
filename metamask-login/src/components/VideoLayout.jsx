@@ -60,7 +60,7 @@ const VideoLayout = () => {
         setCompletedVideos(progress[course].completedVideos || []);
       }
     }
-  }, [course]);
+  }, [course, sampleComments]);
 
   useEffect(() => {
     scrollToBottom();

@@ -4,7 +4,7 @@ import './ChatSystem.css';
 const ChatSystem = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [activeUsers, setActiveUsers] = useState([
+  const [activeUsers] = useState([
     { id: 1, name: 'Medix_Alpha', status: 'online', lastActive: '2 hrs' },
     { id: 2, name: 'KindHeart', status: 'online', lastActive: 'now' },
     { id: 3, name: 'Buddy_Alpha', status: 'away', lastActive: '5 min' },
@@ -30,7 +30,7 @@ const ChatSystem = () => {
     if (selectedUser) {
       setMessages(sampleMessages);
     }
-  }, [selectedUser]);
+  }, [selectedUser, sampleMessages]);
 
   useEffect(() => {
     scrollToBottom();

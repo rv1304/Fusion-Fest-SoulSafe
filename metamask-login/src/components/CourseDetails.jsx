@@ -26,6 +26,7 @@ const CourseDetailsFull = () => {
           <iframe
             className="youtube-player"
             src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Course Introduction Video"
             allowFullScreen
           ></iframe>
         </div>

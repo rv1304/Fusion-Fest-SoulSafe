@@ -3,8 +3,6 @@ import Web3 from "web3";
 import "./TaskRewards.css";
 
 const Task = () => {
-  const [web3, setWeb3] = useState(null);
-  const [account, setAccount] = useState(null);
   const [points, setPoints] = useState(0);
   const [walletAddress, setWalletAddress] = useState("Not connected");
   const [isTransactionInProgress, setIsTransactionInProgress] = useState(false);
@@ -72,8 +70,6 @@ const Task = () => {
         .request({ method: "eth_requestAccounts" })
         .then(async () => {
           const userAccount = (await initWeb3.eth.getAccounts())[0];
-          setWeb3(initWeb3);
-          setAccount(userAccount);
           setWalletAddress(userAccount);
         })
         .catch((error) => {
