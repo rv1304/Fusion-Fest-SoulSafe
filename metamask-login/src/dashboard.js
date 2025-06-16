@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./dashboard.css";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import MerchCards from "./marketplace";
-import Task from './TaskRewards';  // Import TaskRewards component
-import CourseDetailsFull from './components/CourseDetails';  // Import the CourseDetailsFull component
+import Task from './TaskRewards';
+import CourseDetailsFull from './components/CourseDetails';
 
 const Sidebar = ({ onMarketPlaceClick }) => {
-  const navigate = useNavigate();  // Initialize navigate function
+  const navigate = useNavigate();
 
   const handleCommunityClick = () => {
-    window.open('https://chat-application-r33z.onrender.com/', '_blank');  // Open in a new tab
+    navigate('/chat');
   };
 
   const handleFindAFriendClick = () => {
-    window.open('https://chat-application-r33z.onrender.com/', '_blank');  // Open in a new tab
+    navigate('/chat');
+  };
+
+  const handleCoursesClick = () => {
+    navigate('/courses');
   };
 
   return (
@@ -27,17 +31,17 @@ const Sidebar = ({ onMarketPlaceClick }) => {
         <button className="nav-button" onClick={handleFindAFriendClick}>
           <i className="fas fa-inbox"></i> Find a Friend
         </button><br />
-        <Link to="/CourseDetails"> {/* Link to CourseDetailsFull page */}
-          <button className="nav-button">
-            <i className="fas fa-book"></i> Courses
-          </button>
-        </Link><br />
+        <button className="nav-button" onClick={handleCoursesClick}>
+          <i className="fas fa-book"></i> Courses
+        </button><br />
         <button className="nav-button" onClick={onMarketPlaceClick}>
           <i className="fas fa-store"></i> NFT Marketplace
         </button><br />
-        <button className="nav-button">
-          <i className="fas fa-tasks"></i> <Link to="/TaskRewards">Task Rewards</Link>  {/* Add link to Task Rewards */}
-        </button><br />
+        <Link to="/TaskRewards">
+          <button className="nav-button">
+            <i className="fas fa-tasks"></i> Task Rewards
+          </button>
+        </Link><br />
         <button className="nav-button" onClick={handleCommunityClick}>
           <i className="fas fa-users"></i> Community
         </button>
@@ -60,16 +64,25 @@ const HeroSection = () => (
   </div>
 );
 
-const StatCards = () => (
-  <div className="stat-cards">
-    {Array.from({ length: 4 }).map((_, idx) => (
-      <div className="stat-card" key={idx}>
-        <p>2/8 Watched</p>
-        <span>Product Design</span>
-      </div>
-    ))}
-  </div>
-);
+const StatCards = () => {
+  const stats = [
+    { watched: "2/8", subject: "Mental Health Basics" },
+    { watched: "5/12", subject: "Mindfulness Training" },
+    { watched: "3/6", subject: "Stress Management" },
+    { watched: "1/4", subject: "Sleep Hygiene" }
+  ];
+
+  return (
+    <div className="stat-cards">
+      {stats.map((stat, idx) => (
+        <div className="stat-card" key={idx}>
+          <p>{stat.watched} Watched</p>
+          <span>{stat.subject}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const Card = ({ image, title, specialist }) => (
   <div className="card">
@@ -81,29 +94,52 @@ const Card = ({ image, title, specialist }) => (
   </div>
 );
 
-const TherapySessions = () => (
-  <div className="therapy-sessions">
-    <h2>Previous Therapy Session</h2>
-    <div className="session-details">
-      <div className="session">
-        <p>Therapist_Sigma</p>
-        <p>29/9/2023</p>
-        <p>How To Kill Self Doubt</p>
-        <button>Show Details</button>
-      </div>
-      <div className="session">
-        <p>HealthMaster_13</p>
-        <p>31/12/2024</p>
-        <p>Loneliness</p>
-        <button>Show Details</button>
+const TherapySessions = () => {
+  const sessions = [
+    {
+      therapist: "Therapist_Sigma",
+      date: "1/01/2025",
+      topic: "How To Kill Self Doubt",
+      status: "completed"
+    },
+    {
+      therapist: "HealthMaster_13",
+      date: "31/12/2024",
+      topic: "Loneliness",
+      status: "completed"
+    },
+    {
+      therapist: "MindBalance_Pro",
+      date: "28/12/2024",
+      topic: "Anxiety Management",
+      status: "scheduled"
+    }
+  ];
+
+  return (
+    <div className="therapy-sessions">
+      <h2>Previous Therapy Sessions</h2>
+      <div className="session-details">
+        {sessions.map((session, index) => (
+          <div key={index} className="session">
+            <div className="session-info">
+              <p><strong>{session.therapist}</strong></p>
+              <p>{session.date}</p>
+              <p>{session.topic}</p>
+            </div>
+            <button className={`session-btn ${session.status}`}>
+              {session.status === 'completed' ? 'Show Details' : 'Join Session'}
+            </button>
+          </div>
+        ))}
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Dashboard = () => {
   const [isMarketPlaceVisible, setIsMarketPlaceVisible] = useState(false);
-  const location = useLocation();  // Get the current location
+  const location = useLocation();
 
   const handleMarketPlaceClick = () => {
     setIsMarketPlaceVisible(!isMarketPlaceVisible);
@@ -111,7 +147,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      {/* Only show Sidebar if the current route is Dashboard */}
       {location.pathname === "/dashboard" && <Sidebar onMarketPlaceClick={handleMarketPlaceClick} />}
 
       <div className="main-content">
@@ -121,17 +156,17 @@ const Dashboard = () => {
         <h2 style={{ textAlign: 'left', marginLeft: '20px' }}>Continue Watching</h2>
         <div className="cards-grid">
           <Card
-            image="https://i.pinimg.com/236x/f3/67/fe/f367fece757a2c4b4b4d9a729851490d.jpg"
+            image="https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg"
             title="Building Emotional Resilience"
             specialist="WellnessSphere Specialist"
           />
           <Card
-            image="https://i.pinimg.com/236x/cb/ef/2f/cbef2fd74ad6b17879fe183343e08c20.jpg"
+            image="https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg"
             title="Mindfulness And Meditation For Mental Clarity"
             specialist="VitalExpert Specialist"
           />
           <Card
-            image="https://i.pinimg.com/236x/60/54/b5/6054b54f91b6f82212416239f076d6b4.jpg"
+            image="https://images.pexels.com/photos/3760069/pexels-photo-3760069.jpeg"
             title="Positive Thinking And Cognitive Behavioral Therapy"
             specialist="CarePro Specialist"
           />
@@ -139,16 +174,7 @@ const Dashboard = () => {
         <TherapySessions />
       </div>
 
-      {/* Conditionally render MerchCards when Marketplace is visible */}
       {isMarketPlaceVisible && <MerchCards />}
-    </div>
-  );
-};
-
-const CourseDetailPage = () => {
-  return (
-    <div className="course-detail-page">
-      <CourseDetailsFull />  {/* Render the CourseDetailsFull component */}
     </div>
   );
 };

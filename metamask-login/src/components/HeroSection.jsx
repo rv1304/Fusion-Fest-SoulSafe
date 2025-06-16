@@ -7,19 +7,37 @@ import "aos/dist/aos.css";
 import { motion } from "framer-motion";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
-import './HeroSection.css'; // Import your CSS file
+import { useNavigate } from "react-router-dom";
+import './HeroSection.css';
 
 export default function HeroSection() {
-  const navigate = useNavigate(); // Hook to navigate programmatically
+  const navigate = useNavigate();
 
   const goToLogin = () => {
-    navigate("/login"); // Navigate to LoginPage
+    navigate("/login");
   };
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true }); // Initialize AOS with options
+    AOS.init({ duration: 1000, once: true });
   }, []);
+
+  const testimonials = [
+    {
+      name: "True Buddy",
+      role: "Engineer",
+      text: "This website has been an incredible support system for me. The resources are easy to understand and genuinely helpful, and the community feels so welcoming and judgment-free. It's comforting to know there's a place where mental health is treated with the care it deserves. Highly recommend it to anyone seeking guidance or just someone to listen."
+    },
+    {
+      name: "KindHeart",
+      role: "Housewife",
+      text: "The anonymous support feature gave me the courage to seek help when I needed it most. The wellness challenges are practical and achievable, making my mental health journey feel manageable and rewarding."
+    },
+    {
+      name: "NiceHuman",
+      role: "Nurse",
+      text: "As a healthcare worker, I appreciate the professional approach to mental health resources here. The tokenized rewards system motivates me to maintain consistent self-care practices, and the community support is invaluable."
+    }
+  ];
 
   return (
     <>
@@ -29,11 +47,11 @@ export default function HeroSection() {
         <nav className="navbar">
           <h1>SoulSafe 🫀</h1>
           <ul>
-            <li>About Us</li>
-            <li>Features</li>
-            <li>Wellness Challenges</li>
-            <li>Testimonials</li>
-            <li>Contact Us</li>
+            <li onClick={() => document.getElementById('about').scrollIntoView({ behavior: 'smooth' })}>About Us</li>
+            <li onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })}>Features</li>
+            <li onClick={() => document.getElementById('wellness').scrollIntoView({ behavior: 'smooth' })}>Wellness Challenges</li>
+            <li onClick={() => document.getElementById('testimonials').scrollIntoView({ behavior: 'smooth' })}>Testimonials</li>
+            <li onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}>Contact Us</li>
           </ul>
           <button onClick={goToLogin}>Login</button>
         </nav>
@@ -69,7 +87,7 @@ export default function HeroSection() {
       </section>
 
       {/* Features Section */}
-      <section className="features-section">
+      <section id="features" className="features-section">
         <div style={{ textAlign: "center" }}>
           <h3>Features</h3>
           <h2>Empower Your Mental Health Journey</h2>
@@ -135,7 +153,7 @@ export default function HeroSection() {
         <hr className="border-gray-300" />
 
         {/* Wellness Challenge Section */}
-        <section className="wellness-challenge-section">
+        <section id="wellness" className="wellness-challenge-section">
           <h3>Wellness Challenges</h3>
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-8">
             {/* Text Content */}
@@ -151,7 +169,7 @@ export default function HeroSection() {
               {/* Image */}
               <div className="md:w-3/4 flex justify-center" data-aos="fade-left">
                 <img
-                  src={m} // Replace this with the correct image path
+                  src={m}
                   alt="Wellness Challenge Illustration"
                   className="w-full max-w-lg rounded-lg shadow-lg"
                 />
@@ -162,8 +180,44 @@ export default function HeroSection() {
 
         <hr className="border-gray-300" />
 
+        {/* Testimonials Section */}
+        <section id="testimonials" className="testimonials-section" style={{ padding: "5rem 2rem", backgroundColor: "#0d1117" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <h2 style={{ fontSize: "2.5rem", color: "#d53f8c", marginBottom: "1rem" }}>What Our Clients Say About Us</h2>
+            <p style={{ color: "#b0b3b8", fontSize: "1.2rem" }}>Real stories from real people who found their path to wellness</p>
+          </div>
+          
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))", gap: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
+            {testimonials.map((testimonial, index) => (
+              <div 
+                key={index}
+                data-aos="fade-up"
+                data-aos-delay={index * 200}
+                style={{
+                  backgroundColor: "#1c2430",
+                  padding: "2rem",
+                  borderRadius: "12px",
+                  boxShadow: "0 6px 20px rgba(0, 0, 0, 0.4)",
+                  transition: "transform 0.3s ease",
+                }}
+                onMouseEnter={(e) => e.target.style.transform = "translateY(-5px)"}
+                onMouseLeave={(e) => e.target.style.transform = "translateY(0)"}
+              >
+                <div style={{ marginBottom: "1rem" }}>
+                  <h4 style={{ color: "#ff79c6", fontSize: "1.2rem", marginBottom: "0.5rem" }}>{testimonial.name}</h4>
+                  <p style={{ color: "#8b949e", fontSize: "0.9rem" }}>{testimonial.role}</p>
+                </div>
+                <p style={{ color: "#e6edf3", lineHeight: "1.6", fontSize: "1rem" }}>"{testimonial.text}"</p>
+                <div style={{ marginTop: "1rem", color: "#ffd700" }}>
+                  ⭐⭐⭐⭐⭐
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Contact Us Section */}
-        <section className="contact-section">
+        <section id="contact" className="contact-section">
           <div className="container">
             <h2>Contact Us</h2>
             <p>We'd love to hear from you! Get in touch with us for any queries or feedback.</p>
@@ -175,15 +229,15 @@ export default function HeroSection() {
                 <p>If you have any questions, feel free to reach out to us:</p>
                 <div className="contact-item">
                   <span className="icon">📍</span>
-                  <p>123 Main Street, Cityville, Country</p>
+                  <p>SoulSafe Chandigarh, India</p>
                 </div>
                 <div className="contact-item">
                   <span className="icon">📧</span>
-                  <p>support@example.com</p>
+                  <p>SoulSafe@gmail.com</p>
                 </div>
                 <div className="contact-item">
                   <span className="icon">📞</span>
-                  <p>+1 (234) 567-890</p>
+                  <p>+91 9988776655</p>
                 </div>
 
                 {/* Social Media Buttons */}
@@ -201,7 +255,18 @@ export default function HeroSection() {
                     <input type="text" placeholder="Your Name" required />
                   </div>
                   <div className="form-group">
-                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                    <input type="email" placeholder="Your Email" required />
+                  </div>
+                  <div className="form-group">
+                    <select style={{ width: "100%", padding: "1rem", marginBottom: "1rem", backgroundColor: "#2e3a4c", color: "#cbd5e0", border: "1px solid transparent", borderRadius: "5px" }}>
+                      <option>General Inquiry</option>
+                      <option>Technical Support</option>
+                      <option>Therapy Services</option>
+                      <option>Partnership</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <textarea placeholder="Write your message..." rows="5" required></textarea>
                   </div>
                   <button type="submit">Send Message</button>
                 </form>
